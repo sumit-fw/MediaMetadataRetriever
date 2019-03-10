@@ -1,0 +1,48 @@
+{
+	"Check":{
+			"codec_name":1,
+			"width":21,
+			"height": 1080,
+			"avg_frame_rate": 30,
+			"bit_rate": 30,
+			"sample_rate": "48000",
+			"display_aspect_ratio": 1
+			
+	},
+	"1080":{		
+			"30":{
+				"width": 1920,
+				"height": 1080,
+				"avg_frame_rate": 30,
+				"bit_rate": 30
+			},
+			"60":{
+				"width": 1920,
+				"height": 1080,
+				"avg_frame_rate": 60,
+				"bit_rate":30
+			},
+			"48":{
+				"width": 1920,
+				"height": 1080,
+				"avg_frame_rate": 48,
+				"bit_rate": 30
+			}	
+	},
+	"1440":{
+			"30":{
+				"width": 1920,
+				"height": 1440,
+				"avg_frame_rate": 30,
+				"bit_rate": 30,
+				"display_aspect_ratio": "4:3"
+			},
+			"50":{
+				"width": 1920,
+				"height": 1440,
+				"avg_frame_rate": 50,
+				"bit_rate": 30
+			}	
+	
+	}
+}
