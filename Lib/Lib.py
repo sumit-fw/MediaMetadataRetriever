@@ -112,7 +112,7 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
     bold = workbook.add_format({'bold': 1})
     
     # Write some data headers.
-    worksheet.write('A1', 'File Name', bold)
+    
 
     
     FILES = [f for f in files if f.endswith('.MP4') or f.endswith('.LRV')  or f.endswith('.mp4')]
@@ -122,20 +122,26 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
         _=os.system(command)
 
     LibUtils.MoveFiles(folder, desfolder, "json")
-    row, col = 0, 1
+    row = 0
+    checkmetadata=Report.Loadjson(file="D:\\config.json")
+    
+    worksheet.write('A1', 'File Name', bold)
+    col=1
+    for key in checkmetadata:
+            worksheet.write(0, col, key)
+            col+=1
+            
     for file in FILES:
         row+=1
+        col=1
         worksheet.write(row, 0, str(file))
         logfile=desfolder+'\\'+file+'.json'
         json_object=Report.Loadjson(logfile)
-        for key in json_object:
-            
-            worksheet.write(row, col, str(json_object[key]))
-            print(row,str(json_object[key]))
+        print(json_object)
+        for key in checkmetadata:
+            worksheet.write(row, col, str(LibUtils.JsonValue(json_object, key)))
+            print(LibUtils.CustomReturn(json_object, key))
             col+=1
-        
-        
-        
     #Ui.Msg("Done")
 
 
