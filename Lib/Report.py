@@ -106,11 +106,22 @@ def Loadjson(file):
         try:
             json_data=json.load(f)
         except:
-            json_data=()
+            json_data={}
             f.seek(0)
             for line in f:
-                print(type(line))
-                print(line, end='')
+                if ':' in line:
+                    min_vol = line.split(':')
+                    min_vol[0] = min_vol[0].strip(' ,\n,\"')
+                    min_vol[1] = min_vol[1].strip('\,,\n, ,\"')
+                    
+                    key=str(min_vol[0])
+                    value=str(min_vol[1])
+                    
+                    if key in json_data:
+                        json_data[str(key)].append(str(value))
+                    else:
+                        json_data[str(key)]=[]
+                        json_data[str(key)].append(str(value))
     return json_data
 
 if __name__ == '__main__':

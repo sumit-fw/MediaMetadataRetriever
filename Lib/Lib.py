@@ -42,7 +42,7 @@ def CheckIntegrity(workbook, reportfolder, files, mediafiles):
             worksheet.write(row, col,file)
             worksheet.write(row, col+1,"FAIL")
             row+=1
-    Ui.Msg("Done")
+    #Ui.Msg("Done")
 
 def GeneralProperties(workbook, reportfolder, files, mediafiles): 
     '''
@@ -85,7 +85,6 @@ def GeneralProperties(workbook, reportfolder, files, mediafiles):
         match=LibUtils.expectedjson(actual=actualmeta, expected=checkmetadata)
         col=0
         for key in actualmeta:
-            #print(LibUtils.JsonValue(match, key))
             if LibUtils.JsonValue(match, key)=={}:
                 worksheet.write(row, col, LibUtils.CustomReturn(key, actualmeta[key]),yellow)
             elif LibUtils.CustomValidate(key, actual=LibUtils.JsonValue(actualmeta, key), expected=LibUtils.JsonValue(match, key)):
@@ -96,9 +95,9 @@ def GeneralProperties(workbook, reportfolder, files, mediafiles):
                 worksheet.write(row, col, LibUtils.CustomReturn(key, actualmeta[key]))
             col+=1
         row+=1
-    Ui.Msg("Done")
+    #Ui.Msg("Done")
 
-def Custom(workbook, reportfolder, folder, files, customsetup):
+def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
     '''
     Generate Generate Report with all input files.
     :param reportfolder
@@ -123,15 +122,21 @@ def Custom(workbook, reportfolder, folder, files, customsetup):
         _=os.system(command)
 
     LibUtils.MoveFiles(folder, desfolder, "json")
-    
+    row, col = 0, 1
     for file in FILES:
+        row+=1
+        worksheet.write(row, 0, str(file))
         logfile=desfolder+'\\'+file+'.json'
         json_object=Report.Loadjson(logfile)
-        print(json_object)
+        for key in json_object:
+            
+            worksheet.write(row, col, str(json_object[key]))
+            print(row,str(json_object[key]))
+            col+=1
         
         
         
-    Ui.Msg("Done")
+    #Ui.Msg("Done")
 
 
 if __name__ == '__main__':

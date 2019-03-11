@@ -30,7 +30,7 @@ def main():
             elif event == 'General Properties':
                 Lib.GeneralProperties(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
             elif event == 'Custom':
-                Lib.Custom(workbook, reportfolder,folder,values['_FILE_'],'D:\\a.exe')
+                Lib.Custom(workbook, reportfolder,folder,files=values['_FILE_'],mediafiles=mediafiles,customsetup='D:\\a.exe')
             else:
                 pass 
         window.Close()
