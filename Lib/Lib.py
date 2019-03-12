@@ -7,7 +7,7 @@ Created on Jan 6, 2019
 import os
 from Lib import LibUtils
 from Lib import Report
-from Lib import Ui
+#from Lib import Ui
 #from test import worksheet
 
 def CheckIntegrity(workbook, reportfolder, files, mediafiles):
@@ -22,7 +22,7 @@ def CheckIntegrity(workbook, reportfolder, files, mediafiles):
     else:
         worksheet=workbook.get_worksheet_by_name("Integrity")
     # Add a bold format to use to highlight cells.
-    bold = workbook.add_format({'bold': 1})
+    bold = workbook.add_format({'bold': 1, 'bg_color':'#75A5D0','border':1})
     
     # Write some data headers.
     worksheet.write('A1', 'File Name', bold)
@@ -61,7 +61,7 @@ def GeneralProperties(workbook, reportfolder, files, mediafiles):
         worksheet=workbook.get_worksheet_by_name("GeneralProperties")
         
     # Add a bold format to use to highlight cells.
-    heading = workbook.add_format({'bold': 1, 'bg_color':'blue','border':1})
+    heading = workbook.add_format({'bold': 1, 'bg_color':'#75A5D0','border':1})
     red = workbook.add_format({'bg_color':'red','border':1})
     green = workbook.add_format({'bg_color':'green','border':1})
     yellow = workbook.add_format({'bg_color':'yellow','border':1})
@@ -70,7 +70,7 @@ def GeneralProperties(workbook, reportfolder, files, mediafiles):
     # Write some data headers.
     worksheet.write(0,0,"FileName", heading)
     for i in checkmetadata["Check"]:
-        worksheet.write(row,col,i, heading)
+        worksheet.write(row,col,checkmetadata["Check"][i], heading)
         col+=1
     row+=1
     for file in files:
@@ -109,8 +109,8 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
     else:
         worksheet = workbook.get_worksheet_by_name("Custom")
     # Add a bold format to use to highlight cells.
-    bold = workbook.add_format({'bold': 1})
-    
+    bold = workbook.add_format({'bold': 1, 'bg_color':'#75A5D0','border':1})
+    obrder=workbook.add_format({'bg_color':'yellow','border':1})
     # Write some data headers.
     
 
@@ -124,23 +124,25 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
     LibUtils.MoveFiles(folder, desfolder, "json")
     row = 0
     checkmetadata=Report.Loadjson(file="D:\\config.json")
-    
     worksheet.write('A1', 'File Name', bold)
     col=1
     for key in checkmetadata:
-            worksheet.write(0, col, key)
+            worksheet.write(0, col, checkmetadata[key],bold)
             col+=1
             
     for file in FILES:
         row+=1
         col=1
-        worksheet.write(row, 0, str(file))
+        worksheet.write(row, 0, str(file),obrder)
         logfile=desfolder+'\\'+file+'.json'
         json_object=Report.Loadjson(logfile)
-        print(json_object)
+        #print(json_object)
         for key in checkmetadata:
-            worksheet.write(row, col, str(LibUtils.JsonValue(json_object, key)))
-            print(LibUtils.CustomReturn(json_object, key))
+            try:
+                ret=json_object[key]
+            except:
+                ret='data not found in json'
+            worksheet.write(row, col, str(ret),obrder)
             col+=1
     #Ui.Msg("Done")
 

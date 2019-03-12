@@ -28,7 +28,7 @@ def JsonValue(json_data,key, result={}):
             else:
                 result=json_data[k]
             return result
-        if isinstance(json_data[k], dict):
+        elif isinstance(json_data[k], dict):
             result=JsonValue(json_data[k], key, result)
         elif isinstance(json_data[k], list):
             for i in json_data[k]:

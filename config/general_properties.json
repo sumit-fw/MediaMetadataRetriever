@@ -1,12 +1,12 @@
 {
 	"Check":{
-			"codec_name":1,
-			"width":21,
-			"height": 1080,
-			"avg_frame_rate": 30,
-			"bit_rate": 30,
-			"sample_rate": "48000",
-			"display_aspect_ratio": 1
+			"codec_name":"codec name",
+			"width":"width",
+			"height": "height",
+			"avg_frame_rate": "Avg Frame Rate",
+			"bit_rate": "Bitrate",
+			"sample_rate": "Sample Rate",
+			"display_aspect_ratio": "Display AspectRatio"
 			
 	},
 	"1080":{		
