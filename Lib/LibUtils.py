@@ -4,6 +4,10 @@ Created on Jan 8, 2019
 @author: sumit
 ''' 
 import glob, os, shutil
+from builtins import str
+from Lib import Report
+from array import array
+
 
 def MoveFiles(source,destination,filetype):
     '''
@@ -77,6 +81,54 @@ def CustomValidate(key, actual, expected):
             return True
         else:
             return False
+
+
+
+def custom_split(str,key):
+    str = str.strip(' ,[,]')    
+    return str.split(key)
     
+
+def gps_dump(gps_json, file, reportfolder, json_object):
+    header=[]
+    workbook=Report.initExcel(reportfolder,file)
+    for key in gps_json:
+        if type(gps_json[key])==str:
+            header.append(gps_json[key])
+        if type(gps_json[key])==dict:
+            if not workbook.get_worksheet_by_name(key):
+                worksheet = workbook.add_worksheet(key)
+            else:
+                worksheet = workbook.get_worksheet_by_name(key)
+            gps_map(worksheet=worksheet, header=header, title=gps_json[key],  json_object=json_object,key =key)    
+    Report.deinitExcel(workbook)
+
+
+def gps_map(worksheet, header, title, json_object,key):
+    col= 0
+    
+    for i in range(len(json_object[key])):
+        row=0
+        for temp in header:
+            worksheet.write(row,col,json_object[temp][i])
+            row+=1
+        cell=col
+        for ti in title:
+            worksheet.write(row,cell,title[ti])
+            cell+=1
+        row+=1
+        num=0
+        cell=col+num
+        for value in custom_split(str=json_object[key][i], key=","):
+            if cell>=col+len(title)-1: 
+                worksheet.write(row,cell,value)
+                cell=col
+                row+=1
+            else:
+                worksheet.write(row,cell,value)
+                cell+=1
+                
+        col=col+len(title)+2
+           
 if __name__ == '__main__':
     pass

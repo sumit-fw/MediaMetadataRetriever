@@ -75,13 +75,13 @@ def CreateFolder(folder="", foldercount=1, foldername='Report'):
         print ('Error: Creating directory. ' +  foldercount)
     
     
-def initExcel(reportfolder):
+def initExcel(reportfolder, file='Report'):
     '''
     Create Excel with name Report_x(x will be integer value)
     :param reportfolder
     '''
     # Create an new Excel file and add a worksheet.
-    workbook = xlsxwriter.Workbook(reportfolder+'\\Report.xlsx')
+    workbook = xlsxwriter.Workbook(reportfolder+'\\'+file+'.xlsx')
     return workbook
     
     

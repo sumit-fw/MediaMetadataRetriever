@@ -7,6 +7,7 @@ Created on Jan 6, 2019
 import os
 from Lib import LibUtils
 from Lib import Report
+
 #from Lib import Ui
 #from test import worksheet
 
@@ -123,7 +124,13 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
 
     LibUtils.MoveFiles(folder, desfolder, "json")
     row = 0
+    
     checkmetadata=Report.Loadjson(file="D:\\config.json")
+    try:
+        gpsdata=Report.Loadjson(file="D:\\gps.json")
+    except:
+        gpsdata={}
+        print("gps config file not found")
     worksheet.write('A1', 'File Name', bold)
     col=1
     for key in checkmetadata:
@@ -136,7 +143,6 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
         worksheet.write(row, 0, str(file),obrder)
         logfile=desfolder+'\\'+file+'.json'
         json_object=Report.Loadjson(logfile)
-        #print(json_object)
         for key in checkmetadata:
             try:
                 ret=json_object[key]
@@ -144,6 +150,14 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
                 ret='data not found in json'
             worksheet.write(row, col, str(ret),obrder)
             col+=1
+        
+        if gpsdata != {}:
+            LibUtils.gps_dump(gps_json=gpsdata, file=file, reportfolder=reportfolder, json_object=json_object)
+        else:
+            print("GPS config not found")
+        
+        
+        
     #Ui.Msg("Done")
 
 
