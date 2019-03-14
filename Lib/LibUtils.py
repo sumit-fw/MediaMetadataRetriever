@@ -84,9 +84,9 @@ def CustomValidate(key, actual, expected):
 
 
 
-def custom_split(str,key):
-    str = str.strip(' ,[,]')    
-    return str.split(key)
+def custom_split(string,key):
+    string = string.strip(' ,[,]')    
+    return string.split(key)
     
 
 def gps_dump(gps_json, file, reportfolder, json_object):
@@ -110,7 +110,8 @@ def gps_map(worksheet, header, title, json_object,key):
     for i in range(len(json_object[key])):
         row=0
         for temp in header:
-            worksheet.write(row,col,json_object[temp][i])
+            worksheet.write(row,col,temp)
+            worksheet.write(row,col+1,json_object[temp][i])
             row+=1
         cell=col
         for ti in title:
@@ -119,13 +120,13 @@ def gps_map(worksheet, header, title, json_object,key):
         row+=1
         num=0
         cell=col+num
-        for value in custom_split(str=json_object[key][i], key=","):
+        for value in custom_split(string=json_object[key][i], key=","):
             if cell>=col+len(title)-1: 
-                worksheet.write(row,cell,value)
+                worksheet.write(row,cell,int(value))
                 cell=col
                 row+=1
             else:
-                worksheet.write(row,cell,value)
+                worksheet.write(row,cell,int(value))
                 cell+=1
                 
         col=col+len(title)+2
