@@ -27,7 +27,7 @@ def GetFiles(folder=""):
     :param folder
     '''    
     FilesDic={}
-    files = [f for f in os.listdir(folder) if f.endswith('.MP4') or f.endswith('.mp4')]
+    files = [f for f in os.listdir(folder) if f.endswith('.MP4') or f.endswith('.mp4') or f.endswith('.JPG')]
     for count in range(len(files)):
         FilesDic[str(files[count])]=os.path.join(folder,str(files[count]))
     return FilesDic

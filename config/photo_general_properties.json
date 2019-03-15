@@ -1,0 +1,17 @@
+{
+	"Check":{
+			"File Name":"File Name",
+			"File Size":"File Size",
+			"Software": "Camera firmware",
+			"Photo Resolution": "Resolution",
+			"Image Width": "Width",
+			"Image Height": "Height"
+			
+	},
+	"Validation":{
+			"File Size":"File Size",		
+			"Photo Resolution": "Resolution",
+			"Image Width": "Width",
+			"Image Height": "Height"
+	}
+}

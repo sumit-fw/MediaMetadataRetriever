@@ -31,14 +31,15 @@ def ShowFiles(reportfolder, file):
     '''
     layout=[
         [sg.Text('Reports:'),sg.Text(reportfolder)],
+        [sg.Button('Video', size=(10,1)),sg.Button('Photo', size=(10,1))],
         [sg.Listbox(values=file, key='_FILE_', size=(35,10), select_mode = sg.LISTBOX_SELECT_MODE_MULTIPLE)],
         [sg.Button('Check Integrity', size=(35,1))],
         [sg.Button('General Properties', size=(35,1))],
         [sg.Button('Custom', size=(35,1))],
         [sg.Exit('Exit', size=(35,1))]
     ]
-    window = sg.Window(DEFAULT_WINDOW_TITLE, default_element_size=(40, 1), grab_anywhere=False).Layout(layout)
-    return window
+    
+    return layout
 
 
 if __name__ == '__main__':

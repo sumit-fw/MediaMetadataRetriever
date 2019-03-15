@@ -11,7 +11,7 @@ from Lib import Report
 #from Lib import Ui
 #from test import worksheet
 
-def CheckIntegrity(workbook, reportfolder, files, mediafiles):
+def VideoCheckIntegrity(workbook, reportfolder, files, mediafiles):
     '''
     Check integrity of MP4 files.
     :param workbook
@@ -45,7 +45,7 @@ def CheckIntegrity(workbook, reportfolder, files, mediafiles):
             row+=1
     #Ui.Msg("Done")
 
-def GeneralProperties(workbook, reportfolder, files, mediafiles): 
+def VideoGeneralProperties(workbook, reportfolder, files, mediafiles): 
     '''
     Check General Properties of MP4 files.
     :param workbook
@@ -98,7 +98,7 @@ def GeneralProperties(workbook, reportfolder, files, mediafiles):
         row+=1
     #Ui.Msg("Done")
 
-def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
+def VideoCustom(workbook, reportfolder, folder, files, mediafiles, customsetup):
     '''
     Generate Generate Report with all input files.
     :param reportfolder
@@ -159,6 +159,54 @@ def Custom(workbook, reportfolder, folder, files, mediafiles, customsetup):
         
         
     #Ui.Msg("Done")
+
+
+
+def PhotoGeneralProperties(workbook, reportfolder, files, mediafiles):
+    '''
+    Check General Properties of MP4 files.
+    :param workbook
+    :param reportfolder
+    :param files
+    '''
+    checkmetadata=Report.Loadjson(file=".\\config\\photo_general_properties.json")
+    desfolder=Report.CreateFolder(folder=reportfolder, foldername='photo_general_properties')
+    
+    
+    if not workbook.get_worksheet_by_name("PhotoGeneralProperties"):
+        worksheet = workbook.add_worksheet("PhotoGeneralProperties")
+    else:
+        worksheet=workbook.get_worksheet_by_name("PhotoGeneralProperties")
+        
+    # Add a bold format to use to highlight cells.
+    heading = workbook.add_format({'bold': 1, 'bg_color':'#75A5D0','border':1})
+    #red = workbook.add_format({'bg_color':'red','border':1})
+    #green = workbook.add_format({'bg_color':'green','border':1})
+    yellow = workbook.add_format({'bg_color':'yellow','border':1})
+    row, col = 0, 0
+    
+    # Write some data headers.
+    #worksheet.write(0,0,"FileName", heading)
+    for i in checkmetadata["Check"]:
+        worksheet.write(row,col,checkmetadata["Check"][i], heading)
+        col+=1
+    row+=1
+    
+    for file in files:
+        json_file=desfolder+'\\'+'photo_general_properties_'+file+'.log'
+        ffprobe_command = '.\\Tools\\exiftool.exe'+ ' "'+mediafiles[file]+'" > "'+json_file+'"'
+        os.system(ffprobe_command)
+
+        logfile=Report.Loadjson(json_file)
+        dump=checkmetadata["Check"]
+        col=0
+        for key in dump:
+            data=LibUtils.CustomReturn(key, str(logfile[key])).strip('[,\',]')
+            worksheet.write(row, col, data,yellow)
+            col+=1
+        row+=1
+        
+
 
 
 if __name__ == '__main__':
