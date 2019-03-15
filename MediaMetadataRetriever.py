@@ -45,14 +45,14 @@ def main():
                 window.FindElement('_Integrity_').Update(visible=True)
                 window.FindElement('_Custom_').Update(visible=True)
                 window.FindElement('_FILE_').Update(Video_files)
-            elif event == 'Check Integrity' and filetype =='Video':
+            elif event == '_Integrity_' and filetype =='Video':
                 print(filetype)
                 Lib.VideoCheckIntegrity(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
-            elif event == 'General Properties' and filetype =='Video':
+            elif event == '_Properties_' and filetype =='Video':
                 Lib.VideoGeneralProperties(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
-            elif event == 'Custom' and filetype =='Video':
+            elif event == '_Custom_' and filetype =='Video':
                 Lib.VideoCustom(workbook, reportfolder,folder,files=values['_FILE_'],mediafiles=mediafiles,customsetup='D:\\a.exe')
-            elif event == 'General Properties' and filetype =='Photo':
+            elif event == '_Properties_' and filetype =='Photo':
                 Lib.PhotoGeneralProperties(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
             else:
                 pass 
