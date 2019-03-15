@@ -37,9 +37,13 @@ def main():
                 break
             elif event == 'Photo':
                 filetype='Photo'
+                window.FindElement('_Integrity_').Update(visible=False)
+                window.FindElement('_Custom_').Update(visible=False)
                 window.FindElement('_FILE_').Update(photo_files)
             elif event == 'Video':
                 filetype='Video'
+                window.FindElement('_Integrity_').Update(visible=True)
+                window.FindElement('_Custom_').Update(visible=True)
                 window.FindElement('_FILE_').Update(Video_files)
             elif event == 'Check Integrity' and filetype =='Video':
                 print(filetype)

@@ -4,7 +4,6 @@ Created on Jan 4, 2019
 @author: sumit
 '''
 import PySimpleGUI.PySimpleGUI as sg
-import os
 
 # ----====----====----==== Constants the user CAN safely change ====----====----====----#
 DEFAULT_WINDOW_TITLE = 'Media Metadata Retriever'
@@ -33,9 +32,9 @@ def ShowFiles(reportfolder, file):
         [sg.Text('Reports:'),sg.Text(reportfolder)],
         [sg.Button('Video', size=(10,1)),sg.Button('Photo', size=(10,1))],
         [sg.Listbox(values=file, key='_FILE_', size=(35,10), select_mode = sg.LISTBOX_SELECT_MODE_MULTIPLE)],
-        [sg.Button('Check Integrity', size=(35,1))],
-        [sg.Button('General Properties', size=(35,1))],
-        [sg.Button('Custom', size=(35,1))],
+        [sg.Button('Check Integrity', key='_Integrity_', size=(35,1))],
+        [sg.Button('General Properties', key='_Properties_', size=(35,1))],
+        [sg.Button('Custom', key='_Custom_', size=(35,1))],
         [sg.Exit('Exit', size=(35,1))]
     ]
     
