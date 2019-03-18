@@ -180,8 +180,8 @@ def PhotoGeneralProperties(workbook, reportfolder, files, mediafiles):
         
     # Add a bold format to use to highlight cells.
     heading = workbook.add_format({'bold': 1, 'bg_color':'#75A5D0','border':1})
-    #red = workbook.add_format({'bg_color':'red','border':1})
-    #green = workbook.add_format({'bg_color':'green','border':1})
+    red = workbook.add_format({'bg_color':'red','border':1})
+    green = workbook.add_format({'bg_color':'green','border':1})
     yellow = workbook.add_format({'bg_color':'yellow','border':1})
     row, col = 0, 0
     
@@ -194,15 +194,29 @@ def PhotoGeneralProperties(workbook, reportfolder, files, mediafiles):
     
     for file in files:
         json_file=desfolder+'\\'+'photo_general_properties_'+file+'.log'
-        ffprobe_command = '.\\Tools\\exiftool.exe'+ ' "'+mediafiles[file]+'" > "'+json_file+'"'
+        ffprobe_command = '.\\Tools\\exiftool.exe -json -U'+ ' "'+mediafiles[file]+'" > "'+json_file+'"'
         os.system(ffprobe_command)
 
         logfile=Report.Loadjson(json_file)
         dump=checkmetadata["Check"]
         col=0
+        print(logfile[0])
         for key in dump:
-            data=LibUtils.CustomReturn(key, str(logfile[key])).strip('[,\',]')
-            worksheet.write(row, col, data,yellow)
+            data=LibUtils.JsonValue(json_data=logfile[0], key=key)
+                        
+            match=LibUtils.JsonValue(checkmetadata['Validation'], key)
+            
+            if match=={}:
+                worksheet.write(row, col, str(data),yellow)
+            elif data == match:
+                worksheet.write(row, col, str(data),green)
+            elif data != match:
+                worksheet.write(row, col, str(data),red)
+            else:
+                worksheet.write(row, col, str(data))
+                
+            
+            #worksheet.write(row, col, str(data),yellow)
             col+=1
         row+=1
         
