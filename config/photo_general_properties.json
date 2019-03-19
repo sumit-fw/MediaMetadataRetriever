@@ -8,9 +8,7 @@
 			"ImageHeight": "Height",
                         "ExposureTime": "ExposureTime",
                         "ISO": "ISO",
-                        "GoPro_CMOD": "Mode",
                         "AutoRotation": "AutoRotation",
-                        "GoPro_DZST": "Digital Zoom Value",
 			"ProTune": "ProTune",
 			"WhiteBalance": "WhiteBalance",
 			"Sharpness": "Sharpness"
