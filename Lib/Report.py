@@ -6,6 +6,7 @@ Created on Jan 4, 2019
 import os
 import xlsxwriter
 import json
+from logging import raiseExceptions
 
 try:
     from Lib import LibUtils
@@ -27,7 +28,7 @@ def GetFiles(folder=""):
     :param folder
     '''    
     FilesDic={}
-    files = [f for f in os.listdir(folder) if f.endswith('.MP4') or f.endswith('.mp4') or f.endswith('.JPG')]
+    files = [f for f in os.listdir(folder) if f.endswith('.MP4') or f.endswith('.mp4') or f.endswith('.JPG') or f.endswith('.360')]
     for count in range(len(files)):
         FilesDic[str(files[count])]=os.path.join(folder,str(files[count]))
     return FilesDic
@@ -37,7 +38,7 @@ def GetMp4Files(folder=""):
     Return List of files(MP4).
     :param folder
     '''  
-    FILES = [f for f in os.listdir(folder) if f.endswith('.MP4') or f.endswith('.mp4')]
+    FILES = [f for f in os.listdir(folder) if f.endswith('.MP4') or f.endswith('.mp4') or f.endswith('.360')]
     return(FILES)
 
 def GetLRVFiles(folder=""):
@@ -101,10 +102,29 @@ def GeneralReport(filename, logfile, checkmetadata):
 def deinitExcel(workbook):
     workbook.close()
     
-def Loadjson(file):    
+def Loadjson(file, status='Y'):    
     with open(file) as f:
         try:
-            json_data=json.load(f)
+            if status=='Y':
+                json_data=json.load(f)
+            else:
+                json_data={}
+                f.seek(0)
+                for line in f:
+                    if ':' in line:
+                        min_vol = line.split(':')
+                        min_vol[0] = min_vol[0].strip(' ,\n,\"')
+                        min_vol[1] = min_vol[1].strip('\,,\n, ,\"')
+                        
+                        key=str(min_vol[0])
+                        value=str(min_vol[1])
+                        
+                        if key in json_data:
+                            json_data[str(key)].append(str(value))
+                        else:
+                            json_data[str(key)]=[]
+                            json_data[str(key)].append(str(value))
+            #print(json_data)
         except:
             json_data={}
             f.seek(0)

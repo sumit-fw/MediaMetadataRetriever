@@ -2,21 +2,28 @@
 	"Check":{
 			"FileName":"File Name",
 			"FileSize":"File Size",
+            "FileCreateDate": "FileCreateDate",
+            "GoPro_CMOD": "GoPro_CMOD",
 			"Software": "Camera firmware",
 			"PhotoResolution": "Resolution",
 			"ImageWidth": "Width",
-			"ImageHeight": "Height",
-                        "ExposureTime": "ExposureTime",
-                        "ISO": "ISO",
-                        "AutoRotation": "AutoRotation",
-			"ProTune": "ProTune",
-			"WhiteBalance": "WhiteBalance",
-			"Sharpness": "Sharpness"
-			
+			"ImageHeight": "Height",            
+            "ExposureTime": "ExposureTime",            
+            "GoPro_EXPT": "GoPro_EXPT",
+            "ShutterSpeedValue": "ShutterSpeedValue",
+            "ExposureCompensation": "EV COMP",
+            "WhiteBalance": "White Balance",
+            "AutoISOMin": "ISO MIN",
+            "AutoISOMax": "ISO MAX",
+            "ISO": "ISO",            
+			"Sharpness": "Sharpness",            
+            "ColorMode": "ColorMode",			
+            "GoPro_GEOC": "Geometry Calibarions",
+            "GoPro_PVUL": "Preview lens"
 	},
 	"Validation":{
-			"PhotoResolution": "12MP_W",
-			"ImageWidth": 4000,
-			"ImageHeight": 3000
+			"PhotoResolution": "16.6MP",
+			"ImageWidth": 5760,
+			"ImageHeight": 2880
 	}
 }

@@ -30,33 +30,36 @@ def main():
         layout=Ui.ShowFiles(reportfolder,file=Video_files)
         window = sg.Window(DEFAULT_WINDOW_TITLE, default_element_size=(40, 1), grab_anywhere=False).Layout(layout)
 
-        filetype='Video'        
-        while True:      
-            event, values = window.Read()
-            if event is None or event == 'Exit':      
-                break
-            elif event == 'Photo':
-                filetype='Photo'
-                window.FindElement('_Integrity_').Update(visible=False)
-                window.FindElement('_Custom_').Update(visible=False)
-                window.FindElement('_FILE_').Update(photo_files)
-            elif event == 'Video':
-                filetype='Video'
-                window.FindElement('_Integrity_').Update(visible=True)
-                window.FindElement('_Custom_').Update(visible=True)
-                window.FindElement('_FILE_').Update(Video_files)
-            elif event == '_Integrity_' and filetype =='Video':
-                print(filetype)
-                Lib.VideoCheckIntegrity(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
-            elif event == '_Properties_' and filetype =='Video':
-                Lib.VideoGeneralProperties(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
-            elif event == '_Custom_' and filetype =='Video':
-                Lib.VideoCustom(workbook, reportfolder,folder,files=values['_FILE_'],mediafiles=mediafiles,customsetup='D:\\a.exe')
-            elif event == '_Properties_' and filetype =='Photo':
-                Lib.PhotoGeneralProperties(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
-            else:
-                pass 
-            
+        filetype='Video' 
+        try:       
+            while True:      
+                event, values = window.Read()
+                if event is None or event == 'Exit':      
+                    break
+                elif event == 'Photo':
+                    filetype='Photo'
+                    window.FindElement('_Integrity_').Update(visible=False)
+                    window.FindElement('_FILE_').Update(photo_files)
+                elif event == 'Video':
+                    filetype='Video'
+                    window.FindElement('_Integrity_').Update(visible=True)
+                    window.FindElement('_FILE_').Update(Video_files)
+                elif event == '_Integrity_' and filetype =='Video':
+                    print(filetype)
+                    Lib.VideoCheckIntegrity(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
+                elif event == '_Properties_' and filetype =='Video':
+                    Lib.VideoGeneralProperties(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
+                elif event == '_Custom_' and filetype =='Video':
+                    Lib.VideoCustom(workbook, reportfolder,folder,files=values['_FILE_'],mediafiles=mediafiles,customsetup='D:\\a.exe')
+                elif event == '_Custom_' and filetype =='Photo':
+                    Lib.PhotoCustom(workbook, reportfolder,folder,files=values['_FILE_'],mediafiles=mediafiles,customsetup='D:\\a.exe')
+                elif event == '_Properties_' and filetype =='Photo':
+                    Lib.PhotoGeneralProperties(workbook, reportfolder,values['_FILE_'],mediafiles=mediafiles)
+                else:
+                    pass 
+        except:
+            window.Close()
+            Report.deinitExcel(workbook)
         window.Close()
         Report.deinitExcel(workbook)
     else:

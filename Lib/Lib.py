@@ -116,7 +116,7 @@ def VideoCustom(workbook, reportfolder, folder, files, mediafiles, customsetup):
     
 
     
-    FILES = [f for f in files if f.endswith('.MP4') or f.endswith('.LRV')  or f.endswith('.mp4')]
+    FILES = [f for f in files if f.endswith('.MP4') or f.endswith('.LRV') or f.endswith('.mp4') or f.endswith('.360')]
     desfolder=Report.CreateFolder(folder=reportfolder, foldername='Custom')
     for file in FILES:
         command = customsetup+ ' ' +'"'+folder+'\\'+ file+'"'
@@ -125,36 +125,40 @@ def VideoCustom(workbook, reportfolder, folder, files, mediafiles, customsetup):
     LibUtils.MoveFiles(folder, desfolder, "json")
     row = 0
     
-    checkmetadata=Report.Loadjson(file="D:\\config.json")
+    checkmetadata=Report.Loadjson(file="D:\\config.json")    
     try:
-        gpsdata=Report.Loadjson(file="D:\\gps.json")
+        #pass
+        print('temp')
+        #gpsdata=Report.Loadjson(file="D:\\gps.json")
     except:
-        gpsdata={}
-        print("gps config file not found")
+        #gpsdata={}
+        print("gps config file not found")    
     worksheet.write('A1', 'File Name', bold)
     col=1
     for key in checkmetadata:
-            worksheet.write(0, col, checkmetadata[key],bold)
-            col+=1
-            
+        #print(checkmetadata[key])
+        worksheet.write(row, col, str(checkmetadata[key]),bold)
+        col=col+1
     for file in FILES:
         row+=1
         col=1
-        worksheet.write(row, 0, str(file),obrder)
+        worksheet.write(row, 0, str(file),bold)
         logfile=desfolder+'\\'+file+'.json'
-        json_object=Report.Loadjson(logfile)
+        json_object=Report.Loadjson(logfile, status='N')
+        
         for key in checkmetadata:
             try:
                 ret=json_object[key]
+                worksheet.write(row, col, str(ret))
             except:
-                ret='data not found in json'
-            worksheet.write(row, col, str(ret),obrder)
+                ret='Tag not available'
+                worksheet.write(row, col, str(ret),obrder)
             col+=1
         
-        if gpsdata != {}:
-            LibUtils.gps_dump(gps_json=gpsdata, file=file, reportfolder=reportfolder, json_object=json_object)
-        else:
-            print("GPS config not found")
+        #if gpsdata != {}:
+        #    LibUtils.gps_dump(gps_json=gpsdata, file=file, reportfolder=reportfolder, json_object=json_object)
+        #else:
+        #    print("GPS config not found")
         
         
         
@@ -200,7 +204,7 @@ def PhotoGeneralProperties(workbook, reportfolder, files, mediafiles):
         logfile=Report.Loadjson(json_file)
         dump=checkmetadata["Check"]
         col=0
-        print(logfile[0])
+        #print(logfile[0])
         for key in dump:
             data=LibUtils.JsonValue(json_data=logfile[0], key=key)
                         
@@ -221,7 +225,55 @@ def PhotoGeneralProperties(workbook, reportfolder, files, mediafiles):
         row+=1
         
 
+def PhotoCustom(workbook, reportfolder, folder, files, mediafiles, customsetup):
+    '''
+    Generate Generate Report with all input files.
+    :param reportfolder
+    :param folder
+    :param files
+    '''
+    if not workbook.get_worksheet_by_name("PhotoCustom"):
+        worksheet = workbook.add_worksheet("PhotoCustom")
+    else:
+        worksheet = workbook.get_worksheet_by_name("PhotoCustom")
+    # Add a bold format to use to highlight cells.
+    bold = workbook.add_format({'bold': 1, 'bg_color':'#75A5D0','border':1})
+    obrder=workbook.add_format({'bg_color':'yellow','border':1})
+    # Write some data headers.
+    checkmetadata=Report.Loadjson(file="D:\\Photo_config.json")
 
+    FILES = [f for f in files if f.endswith('.JPG') or f.endswith('.jpg')  or f.endswith('.Jpg')]
+    desfolder=Report.CreateFolder(folder=reportfolder, foldername='PhotoCustom')
+    for file in FILES:
+        command = customsetup+ ' ' +'"'+folder+'\\'+ file+'"'
+        _=os.system(command)
 
+    LibUtils.MoveFiles(folder, desfolder, "json")
+    row = 0
+    
+    worksheet.write('A1', 'File Name', bold)
+    col=1
+    for key in checkmetadata:
+        worksheet.write(row, col, str(checkmetadata[key]),bold)
+        col=col+1
+    for file in FILES:
+        row+=1
+        col=1
+        worksheet.write(row, 0, str(file),bold)
+        #print(file)
+        logfile=desfolder+'\\'+file+'.json'
+        json_object=Report.Loadjson(logfile, status='N')
+        print(json_object)
+        for key in checkmetadata:
+            try:
+                ret=json_object[key]
+                #ret=LibUtils.JsonValue(json_object,key)
+                worksheet.write(row, col, str(ret))
+            except:
+                ret='Tag not available'
+                worksheet.write(row, col, str(ret),obrder)
+            col+=1
+        
+     
 if __name__ == '__main__':
     pass

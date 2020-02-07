@@ -6,7 +6,8 @@ Created on Jan 8, 2019
 import glob, os, shutil
 from builtins import str
 from Lib import Report
-from array import array
+
+
 
 
 def MoveFiles(source,destination,filetype):
